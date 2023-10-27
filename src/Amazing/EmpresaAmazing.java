@@ -6,11 +6,13 @@ public class EmpresaAmazing {
     private String cuitSistema;
     private Hashtable<Integer, Paquete> paquetes;
     private ArrayList<Pedido> pedidos;
+	private Integer cantPedidos;
 
     public EmpresaAmazing(String cuit){
         this.cuitSistema = cuit;
         this.paquetes = null;
-        // this.pedidos = new ArrayList<Pedido>(){
+        this.pedidos = new ArrayList<Pedido>();
+		this.paquetes = new Hashtable<>();
     }
 
 	/**
@@ -26,7 +28,7 @@ public class EmpresaAmazing {
 	 * Si esa patente ya esta en el sistema se debe generar una  excepcion.
 	 */
 	public void registrarAutomovil(String patente, int volMax, int valorViaje, int maxPaq){
-		
+
 	}
 	
 	/**
@@ -64,7 +66,9 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public int registrarPedido(String cliente, String direccion, int dni){
-		return 0;
+		Pedido pedidoNuevo = new Pedido(cliente, direccion, dni, pedidos.size()); //Creo el nuevo pedido
+		pedidos.add(pedidoNuevo); //Lo agrego al listado
+		return pedidoNuevo.getIdPedido(); //Retorno
 	}
 	
 	/**
@@ -86,6 +90,16 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public int agregarPaquete(int codPedido, int volumen, int precio, int costoEnvio){
+		Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
+		Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
+		Paquete paqueteNuevo = new Paquete(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
+		if(pedido != null){
+			// pedido.registrarPaquete();
+			paquetes.put(idPaquete, paqueteNuevo);
+			pedido.agregarPaquete(paqueteNuevo); // Lo agrego al listado del pedido
+			System.out.println(pedido.getPaquetes());
+			return idPaquete;
+		}
 		return 0;
 	}
 	
@@ -109,6 +123,16 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public int agregarPaquete(int codPedido, int volumen, int precio, int porcentaje, int adicional){
+		// Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
+		// Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
+		// Paquete paqueteNuevo = new Paquete(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
+		// if(pedido != null){
+		// 	// pedido.registrarPaquete();
+		// 	paquetes.put(idPaquete, paqueteNuevo);
+		// 	pedido.agregarPaquete(paqueteNuevo); // Lo agrego al listado del pedido
+		// 	System.out.println(pedido.getPaquetes());
+		// 	return idPaquete;
+		// }
 		return 0;
 	}
 
@@ -188,9 +212,9 @@ public class EmpresaAmazing {
 	 * cliente que lo pidio.
 	 * 
 	 */
-	public Map<Integer,String> pedidosNoEntregados(){
-		return Map
-	}
+	// public Map<Integer,String> pedidosNoEntregados(){
+	// 	return Map
+	// }
 
 	/**
 	 * Devuelve la suma del precio facturado de todos los pedidos cerrados.

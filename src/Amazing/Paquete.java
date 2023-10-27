@@ -4,5 +4,20 @@ public class Paquete{
     private Integer volumen;
     private Integer idPaquete;
     private Boolean entregado;
-    private Double precio;
+    private Integer precio;
+
+    public Paquete(Integer idPaquete, Integer volumen, Integer precio, Integer costoEnvio){
+        this.idPaquete = idPaquete;
+        this.volumen = volumen;
+        this.entregado = false;
+        this.precio = precio + costoEnvio;
+    }
+
+    public Integer getIdPaquete(){
+        return this.idPaquete;
+    }
+
+    public String toString(){
+        return "Numero de paquete: " + idPaquete + ", Volumen: " + volumen + ", precio: " + precio + " y entregado: " + entregado;
+    }
 }
