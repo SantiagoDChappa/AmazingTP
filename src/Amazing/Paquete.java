@@ -6,11 +6,11 @@ public class Paquete{
     private Boolean entregado;
     private Integer precio;
 
-    public Paquete(Integer idPaquete, Integer volumen, Integer precio, Integer costoEnvio){
+    public Paquete(Integer idPaquete, Integer volumen, Integer precio){
         this.idPaquete = idPaquete;
         this.volumen = volumen;
         this.entregado = false;
-        this.precio = precio + costoEnvio;
+        this.precio = precio;
     }
 
     public Integer getIdPaquete(){

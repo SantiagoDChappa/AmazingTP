@@ -92,7 +92,7 @@ public class EmpresaAmazing {
 	public int agregarPaquete(int codPedido, int volumen, int precio, int costoEnvio){
 		Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
 		Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
-		Paquete paqueteNuevo = new Paquete(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
+		Paquete paqueteNuevo = new Ordinario(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
 		if(pedido != null){
 			// pedido.registrarPaquete();
 			paquetes.put(idPaquete, paqueteNuevo);
@@ -123,16 +123,16 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public int agregarPaquete(int codPedido, int volumen, int precio, int porcentaje, int adicional){
-		// Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
-		// Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
-		// Paquete paqueteNuevo = new Paquete(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
-		// if(pedido != null){
-		// 	// pedido.registrarPaquete();
-		// 	paquetes.put(idPaquete, paqueteNuevo);
-		// 	pedido.agregarPaquete(paqueteNuevo); // Lo agrego al listado del pedido
-		// 	System.out.println(pedido.getPaquetes());
-		// 	return idPaquete;
-		// }
+		Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
+		Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
+		Paquete paqueteNuevo = new Especial(idPaquete, volumen, precio, porcentaje, adicional); // Creo el nuevo paquete
+		if(pedido != null){
+			// pedido.registrarPaquete();
+			paquetes.put(idPaquete, paqueteNuevo);
+			pedido.agregarPaquete(paqueteNuevo); // Lo agrego al listado del pedido
+			System.out.println(pedido.getPaquetes());
+			return idPaquete;
+		}
 		return 0;
 	}
 
