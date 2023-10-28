@@ -17,6 +17,18 @@ public class Paquete{
         return this.idPaquete;
     }
 
+    public Integer getPrecio(){
+        return this.precio;
+    }
+
+    public Integer getVolumen(){
+        return this.volumen;
+    }
+
+    public Integer calcularValorTotal(){
+        return precio;
+    }
+
     public String toString(){
         return "Numero de paquete: " + idPaquete + ", Volumen: " + volumen + ", precio: " + precio + " y entregado: " + entregado;
     }

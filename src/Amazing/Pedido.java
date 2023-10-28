@@ -1,7 +1,6 @@
 package Amazing;
 
 import java.util.*;
-import java.util.Iterator;
 
 public class Pedido{
     private Integer idPedido;
@@ -27,13 +26,21 @@ public class Pedido{
         this.idPedido = idPedido+1;
     }
 
-    public void agregarPaquete(Paquete paquete){
-        paquetes.put(paquete.getIdPaquete(), paquete);
+    public void agregarPaquete(Integer idPaquete, Paquete paquete){
+        paquetes.put(idPaquete, paquete);
         System.out.println(paquetes.size());
     }
 
     public Integer getIdPedido(){
         return this.idPedido;
+    }
+
+    public Integer obtenerFacturacion(){
+        Integer precioFinal = 0;
+        for (Paquete paquete : paquetes.values()) {
+                precioFinal += paquete.calcularValorTotal();
+            }
+        return precioFinal;
     }
 
     public String getPaquetes(){

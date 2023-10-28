@@ -12,7 +12,7 @@ public class EmpresaAmazing {
         this.cuitSistema = cuit;
         this.paquetes = null;
         this.pedidos = new ArrayList<Pedido>();
-		this.paquetes = new Hashtable<>();
+		this.paquetes = new Hashtable<Integer, Paquete>();
     }
 
 	/**
@@ -96,7 +96,7 @@ public class EmpresaAmazing {
 		if(pedido != null){
 			// pedido.registrarPaquete();
 			paquetes.put(idPaquete, paqueteNuevo);
-			pedido.agregarPaquete(paqueteNuevo); // Lo agrego al listado del pedido
+			pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
 			System.out.println(pedido.getPaquetes());
 			return idPaquete;
 		}
@@ -129,7 +129,7 @@ public class EmpresaAmazing {
 		if(pedido != null){
 			// pedido.registrarPaquete();
 			paquetes.put(idPaquete, paqueteNuevo);
-			pedido.agregarPaquete(paqueteNuevo); // Lo agrego al listado del pedido
+			pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
 			System.out.println(pedido.getPaquetes());
 			return idPaquete;
 		}
@@ -161,7 +161,11 @@ public class EmpresaAmazing {
 	 *
 	 */
 	public double cerrarPedido(int codPedido){
-		return 0;
+		Pedido pedido= pedidos.get(codPedido-1);
+		Integer precio = 0;
+		precio = pedido.obtenerFacturacion();
+		System.out.println(precio);
+		return precio;
 	}
 	
 	/**

@@ -7,4 +7,8 @@ public class Ordinario extends Paquete{
         super(idPaquete, volumen, precio);
         this.costoEnvio = costoEnvio;
     }
+
+    public Integer calcularValorTotal(){
+        return getPrecio() + costoEnvio;
+    }
 }
