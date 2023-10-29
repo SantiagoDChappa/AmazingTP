@@ -90,17 +90,21 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public int agregarPaquete(int codPedido, int volumen, int precio, int costoEnvio){
-		Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
-		Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
-		Paquete paqueteNuevo = new Ordinario(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
-		if(pedido != null){
-			// pedido.registrarPaquete();
-			paquetes.put(idPaquete, paqueteNuevo);
-			pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
-			System.out.println(pedido.getPaquetes());
-			return idPaquete;
+		try {
+			Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
+			Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
+			Paquete paqueteNuevo = new Ordinario(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
+			if(pedido != null){
+				// pedido.registrarPaquete();
+				paquetes.put(idPaquete, paqueteNuevo);
+				pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
+				return idPaquete;
+			}else{
+				return -1;
+			}
+		} catch (Exception e) {
+			
 		}
-		return 0;
 	}
 	
 	/**
@@ -130,7 +134,6 @@ public class EmpresaAmazing {
 			// pedido.registrarPaquete();
 			paquetes.put(idPaquete, paqueteNuevo);
 			pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
-			System.out.println(pedido.getPaquetes());
 			return idPaquete;
 		}
 		return 0;
@@ -146,10 +149,14 @@ public class EmpresaAmazing {
 	 * Demostrar la complejidad en terminos de O grande en el informe.
 	 */
 	public boolean quitarPaquete(int codPaquete){
+		for (Pedido pedido : pedidos) {
+			if(pedido.validarPedido(codPaquete)){
+				pedido.quitarPaquete(codPaquete);
+				return true;
+			}
+		}
 		return false;
 	}
-
-
 
 	/**
 	 * Se registra la finalizacion de un pedido registrado en la empresa, 

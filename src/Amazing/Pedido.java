@@ -43,14 +43,21 @@ public class Pedido{
         return precioFinal;
     }
 
-    public String getPaquetes(){
-        Iterator it = paquetes.entrySet().iterator();
-        String listado = "Paquetes: ";
-        while(it.hasNext()){
-            Object claveValor = it.next();
-            listado += "{" + claveValor +  "}";
+    public Hashtable getPaquetes(){
+        return this.paquetes;
+    }
+
+    public boolean validarPedido(Integer codPaquete){
+        for (Paquete paquete : paquetes.values()) {
+            if (paquete.getIdPaquete().equals(codPaquete)) {
+                return true;
+            }
         }
-        return listado;
+        return false;
+    }
+
+    public void quitarPaquete(Integer codPaquete){
+        paquetes.remove(codPaquete);
     }
 
     public String toString(){
