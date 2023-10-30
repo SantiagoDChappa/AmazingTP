@@ -7,7 +7,8 @@ public class Pedido{
     private Hashtable<Integer,Paquete> paquetes;
     private Integer documentoCliente;
     private String nombreCliente;
-    private String direccionCliente; 
+    private String direccionCliente;
+    private Boolean finalizado;
 
     
     public Pedido(){
@@ -16,6 +17,8 @@ public class Pedido{
         this.documentoCliente = 0;
         this.paquetes = new Hashtable<Integer, Paquete>();
         this.idPedido = 0;
+        this.finalizado = false;
+
     }
 
     public Pedido(String cliente, String direccion, Integer documento, Integer idPedido){
@@ -23,7 +26,9 @@ public class Pedido{
         this.direccionCliente = direccion;
         this.documentoCliente = documento;
         this.paquetes = new Hashtable<Integer, Paquete>();
-        this.idPedido = idPedido+1;
+        this.idPedido = idPedido;
+        this.finalizado = false;
+
     }
 
     public void agregarPaquete(Integer idPaquete, Paquete paquete){
@@ -43,7 +48,7 @@ public class Pedido{
         return precioFinal;
     }
 
-    public Hashtable getPaquetes(){
+    public Hashtable<Integer, Paquete> getPaquetes(){
         return this.paquetes;
     }
 
@@ -54,6 +59,14 @@ public class Pedido{
             }
         }
         return false;
+    }
+
+    public void finalizarPedido(){
+        this.finalizado = true;
+    }
+
+    public boolean validarFinalizado(){
+        return this.finalizado;
     }
 
     public void quitarPaquete(Integer codPaquete){

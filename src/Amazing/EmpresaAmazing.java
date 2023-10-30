@@ -5,14 +5,16 @@ import java.util.*;
 public class EmpresaAmazing {
     private String cuitSistema;
     private Hashtable<Integer, Paquete> paquetes;
-    private ArrayList<Pedido> pedidos;
+    private Hashtable<Integer, Pedido> pedidos;
 	private Integer cantPedidos;
+    private Hashtable <String, Transporte> transportes;
 
     public EmpresaAmazing(String cuit){
         this.cuitSistema = cuit;
         this.paquetes = null;
-        this.pedidos = new ArrayList<Pedido>();
+        this.pedidos = new Hashtable<Integer, Pedido>();
 		this.paquetes = new Hashtable<Integer, Paquete>();
+		this.transportes = new Hashtable <String, Transporte>();
     }
 
 	/**
@@ -28,8 +30,12 @@ public class EmpresaAmazing {
 	 * Si esa patente ya esta en el sistema se debe generar una  excepcion.
 	 */
 	public void registrarAutomovil(String patente, int volMax, int valorViaje, int maxPaq){
-
-	}
+        if (transportes.containsKey(patente)) {
+            throw new RuntimeException("Patente ya registrada");
+        }
+        Comun nuevoComun = new Comun (patente, volMax, valorViaje, maxPaq);
+        transportes.put(patente, nuevoComun);
+    }
 	
 	/**
 	 * Registra un nuevo transporte tipo Utilitario en el sistema con los  
@@ -40,8 +46,14 @@ public class EmpresaAmazing {
 	 * Si esa patente ya esta en el sistema se debe generar una  excepcion.
 	 */
 	public void registrarUtilitario(String patente, int volMax, int valorViaje, int valorExtra){
+        if (transportes.containsKey(patente)) {
+            throw new RuntimeException("Patente ya registrada");
+        } else {
+            Utilitario nuevoUtilitario = new Utilitario (patente, volMax, valorViaje, valorExtra);
+            transportes.put(patente, nuevoUtilitario);
+        }
 
-	}
+    }
 	
 	/**
 	 * Registra un nuevo transporte tipo Camion en el sistema con los  
@@ -52,8 +64,13 @@ public class EmpresaAmazing {
 	 * Si esa patente ya esta en el sistema se debe generar una  excepcion.
 	 */
 	public void registrarCamion(String patente, int volMax, int valorViaje, int adicXPaq){
-		
-	}
+        if (transportes.containsKey(patente)) {
+            throw new RuntimeException("Patente ya registrada");
+        } else {
+            Camion nuevoCamion = new Camion (patente, volMax, valorViaje, adicXPaq);
+            transportes.put(patente, nuevoCamion);
+        }
+    }
 	
 	/**
 	 * Se registra un nuevo pedido en el sistema proporcionando los siguientes datos:
@@ -66,8 +83,12 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public int registrarPedido(String cliente, String direccion, int dni){
-		Pedido pedidoNuevo = new Pedido(cliente, direccion, dni, pedidos.size()); //Creo el nuevo pedido
-		pedidos.add(pedidoNuevo); //Lo agrego al listado
+		Integer idPedido = pedidos.size() + 1; 
+		Pedido pedidoNuevo = new Pedido(cliente, direccion, dni, idPedido); //Creo el nuevo pedido
+		pedidos.put(idPedido, pedidoNuevo); //Lo agrego al listado
+
+		System.out.println(idPedido);
+
 		return pedidoNuevo.getIdPedido(); //Retorno
 	}
 	
@@ -90,20 +111,17 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public int agregarPaquete(int codPedido, int volumen, int precio, int costoEnvio){
-		try {
-			Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
-			Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
+		Pedido pedido = pedidos.get(codPedido);
+		if (!pedidos.containsKey(codPedido)) {
+            throw new RuntimeException("Pedido inexistente en el sistema");
+        } else if (pedido.validarFinalizado()) {
+			throw new RuntimeException("Pedido ya finalizado");
+		} else {
+			Integer idPaquete = paquetes.size(); // Genero el id del paquete
 			Paquete paqueteNuevo = new Ordinario(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
-			if(pedido != null){
-				// pedido.registrarPaquete();
-				paquetes.put(idPaquete, paqueteNuevo);
-				pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
-				return idPaquete;
-			}else{
-				return -1;
-			}
-		} catch (Exception e) {
-			
+			paquetes.put(idPaquete, paqueteNuevo);
+			pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
+			return idPaquete;
 		}
 	}
 	
@@ -127,16 +145,19 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public int agregarPaquete(int codPedido, int volumen, int precio, int porcentaje, int adicional){
-		Pedido pedido = pedidos.get(codPedido-1); // Me obtengo el pedido para poder agregar el paquete
-		Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
-		Paquete paqueteNuevo = new Especial(idPaquete, volumen, precio, porcentaje, adicional); // Creo el nuevo paquete
-		if(pedido != null){
-			// pedido.registrarPaquete();
+		Pedido pedido = pedidos.get(codPedido);
+		if (!pedidos.containsKey(codPedido)) {
+            throw new RuntimeException("Pedido ya registrado");
+        } else if (pedido.validarFinalizado()) {
+			throw new RuntimeException("Pedido ya finalizado");
+		} else {
+			Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
+			Paquete paqueteNuevo = new Especial(idPaquete, volumen, precio, porcentaje, adicional); // Creo el nuevo paquete
+
 			paquetes.put(idPaquete, paqueteNuevo);
 			pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
 			return idPaquete;
 		}
-		return 0;
 	}
 
 
@@ -149,7 +170,7 @@ public class EmpresaAmazing {
 	 * Demostrar la complejidad en terminos de O grande en el informe.
 	 */
 	public boolean quitarPaquete(int codPaquete){
-		for (Pedido pedido : pedidos) {
+		for (Pedido pedido : pedidos.values()) {
 			if(pedido.validarPedido(codPaquete)){
 				pedido.quitarPaquete(codPaquete);
 				return true;
@@ -168,10 +189,9 @@ public class EmpresaAmazing {
 	 *
 	 */
 	public double cerrarPedido(int codPedido){
-		Pedido pedido= pedidos.get(codPedido-1);
-		Integer precio = 0;
-		precio = pedido.obtenerFacturacion();
-		System.out.println(precio);
+		Pedido pedido= pedidos.get(codPedido);
+		Integer precio = pedido.obtenerFacturacion();
+		pedido.finalizarPedido();
 		return precio;
 	}
 	
@@ -192,6 +212,12 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public String cargarTransporte(String patente){
+		Transporte transporte = transportes.get(patente);
+		for (Pedido pedido : pedidos.values()) {
+			if (pedido.validarFinalizado()) {
+				transporte.cargarPaquetes(pedido);
+			}
+		}
 		return "";
 	}
 	
