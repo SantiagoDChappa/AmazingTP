@@ -189,10 +189,14 @@ public class EmpresaAmazing {
 	 *
 	 */
 	public double cerrarPedido(int codPedido){
-		Pedido pedido= pedidos.get(codPedido);
-		Integer precio = pedido.obtenerFacturacion();
-		pedido.finalizarPedido();
-		return precio;
+		if (!pedidos.containsKey(codPedido)) {
+            throw new RuntimeException("Pedido ya registrado");
+		} else {
+			Pedido pedido= pedidos.get(codPedido);
+			Integer precio = pedido.obtenerFacturacion();
+			pedido.finalizarPedido();
+			return precio;
+		}
 	}
 	
 	/**
@@ -212,13 +216,17 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	public String cargarTransporte(String patente){
-		Transporte transporte = transportes.get(patente);
-		for (Pedido pedido : pedidos.values()) {
-			if (pedido.validarFinalizado()) {
-				transporte.cargarPaquetes(pedido);
+		if (!transportes.containsKey(patente)) {
+            throw new RuntimeException("Patente no registrado en el sistema");
+		} else {
+			Transporte transporte = transportes.get(patente);
+			for (Pedido pedido : pedidos.values()) {
+				if (pedido.validarFinalizado()) {
+					transporte.cargarPaquetes(pedido);
+				}
 			}
-		}
-		return transporte.toString();
+			return transporte.toString();
+		}	
 	}
 	
 	/**
@@ -238,7 +246,15 @@ public class EmpresaAmazing {
 	 * En O(1)
 	 */
 	public double costoEntrega(String patente){
-		return 0;
+		Transporte transporte = transportes.get(patente);
+		if (transportes.containsKey(patente)) {
+			throw new RuntimeException("Patente no registrado en  el sistema");
+		}else if (transporte.getListaPaquete().size() < 1) {
+            throw new RuntimeException("El transporte no contiene ninguna carga");
+		} else {
+			Double costo = transporte.calcularValorEntrega(); 
+			return costo;
+		}
 	}
 	
 	/**
@@ -259,6 +275,7 @@ public class EmpresaAmazing {
 	 * Se debe realizar esta operacion en O(1).
 	 */
 	public double facturacionTotalPedidosCerrados(){
+		// double costoTotal = pedidos.obtenerCostoFin();
 		return 0;
 	}
 	

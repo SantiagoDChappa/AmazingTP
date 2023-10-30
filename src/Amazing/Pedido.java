@@ -44,6 +44,10 @@ public class Pedido{
         this.idPedido = idPedido;
     }
 
+    // public double obtenerCostoFin(){
+	// 	double costo += paquetes.obtenerFacturacion();
+	// }
+
     public Integer obtenerFacturacion(){
         Integer precioFinal = 0;
         for (Paquete paquete : paquetes.values()) {

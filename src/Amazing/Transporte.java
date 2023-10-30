@@ -43,7 +43,7 @@ public abstract class Transporte {
 		for (Paquete paquete : listaPaquetes.values()) {
 			ret = false;
 			for (Paquete paquete2 : listaPaquete2.values()) {
-					ret = ret || paquete.validarIgualdad(paquete2);
+					ret = ret || (paquete.sonMismoTipo(paquete, paquete2) && paquete.validarIgualdad(paquete2));
 			}
 			ret2 = ret2 && ret;
 		}
@@ -63,6 +63,8 @@ public abstract class Transporte {
     }
 
 	public abstract String toString();
+
+
 
 	public String getPatente(){
 		return this.patente;

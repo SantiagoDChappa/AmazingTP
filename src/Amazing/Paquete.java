@@ -58,14 +58,6 @@ public class Paquete{
         return false;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Paquete paquete = (Paquete) obj;
-        return volumen.equals(paquete.volumen) && precio.equals(paquete.precio) && entregado == paquete.entregado;
-    }
-
     public String toString(){
         return "Numero de paquete: " + idPaquete + ", Volumen: " + volumen + ", precio: " + precio + " y entregado: " + entregado;
     }

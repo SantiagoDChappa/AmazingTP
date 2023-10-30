@@ -10,6 +10,21 @@ public class Especial extends Paquete{
         this.porcentajeEntregaRapida = porcentaje;
     }
 
+    public Integer getPorcentajeEntregaRapida(){
+        return this.porcentajeEntregaRapida;
+    }
+
+    public Integer getValorAdicional(){
+        return this.valorAdicional;
+    }
+    
+    public Boolean validarIgualdad(Especial otroPaquete){
+        if(getVolumen().equals(otroPaquete.getVolumen()) && getPrecio().equals(otroPaquete.getPrecio()) && getEntregado() == otroPaquete.getEntregado() && valorAdicional.equals(otroPaquete.getValorAdicional()) && porcentajeEntregaRapida.equals(otroPaquete.getPorcentajeEntregaRapida())){
+            return true;
+        }
+        return false;
+    }
+
     public Integer calcularValorTotal(){
         if (getVolumen() <= 3000) {
             return getPrecio() + ((getPrecio() * porcentajeEntregaRapida) / 100);
