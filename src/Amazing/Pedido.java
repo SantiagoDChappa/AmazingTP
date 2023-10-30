@@ -7,7 +7,7 @@ public class Pedido{
     private Hashtable<Integer,Paquete> paquetes;
     private Integer documentoCliente;
     private String nombreCliente;
-    private String direccionCliente;
+    protected String direccionCliente;
     private Boolean finalizado;
 
     
@@ -38,6 +38,10 @@ public class Pedido{
 
     public Integer getIdPedido(){
         return this.idPedido;
+    }
+
+     public void setIdPedido(Integer idPedido){
+        this.idPedido = idPedido;
     }
 
     public Integer obtenerFacturacion(){
@@ -71,6 +75,14 @@ public class Pedido{
 
     public void quitarPaquete(Integer codPaquete){
         paquetes.remove(codPaquete);
+    }
+
+    public String getDireccion(){
+        return this.direccionCliente;
+    }
+
+    public void setDireccion(String direccion){
+        this.direccionCliente = direccion;
     }
 
     public String toString(){

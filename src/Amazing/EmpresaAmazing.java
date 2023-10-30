@@ -14,7 +14,7 @@ public class EmpresaAmazing {
         this.paquetes = null;
         this.pedidos = new Hashtable<Integer, Pedido>();
 		this.paquetes = new Hashtable<Integer, Paquete>();
-		this.transportes = new Hashtable <String, Transporte>();
+		this.transportes = new Hashtable<String, Transporte>();
     }
 
 	/**
@@ -117,7 +117,7 @@ public class EmpresaAmazing {
         } else if (pedido.validarFinalizado()) {
 			throw new RuntimeException("Pedido ya finalizado");
 		} else {
-			Integer idPaquete = paquetes.size(); // Genero el id del paquete
+			Integer idPaquete = paquetes.size() + 1; // Genero el id del paquete
 			Paquete paqueteNuevo = new Ordinario(idPaquete, volumen, precio, costoEnvio); // Creo el nuevo paquete
 			paquetes.put(idPaquete, paqueteNuevo);
 			pedido.agregarPaquete(idPaquete, paqueteNuevo); // Lo agrego al listado del pedido
@@ -208,7 +208,7 @@ public class EmpresaAmazing {
 	 * Los paquetes que se cargan deben pertenecer a pedidos finaizados.
 	 * Si no se encontró ningún paquete para cargar, se debe devolver un string vacio.
 	 * 
-	 * Si esa patente no esta en el sistema se debe generar una  excepcion. 
+	 * Si esa patente no esta en el sistema se debe generar una excepcion. 
 	 * 
 	 */
 	public String cargarTransporte(String patente){
@@ -218,7 +218,7 @@ public class EmpresaAmazing {
 				transporte.cargarPaquetes(pedido);
 			}
 		}
-		return "";
+		return transporte.toString();
 	}
 	
 	/**
@@ -250,7 +250,7 @@ public class EmpresaAmazing {
 	 * 
 	 */
 	// public Map<Integer,String> pedidosNoEntregados(){
-	// 	return Map
+	// 	return Map;
 	// }
 
 	/**
@@ -276,7 +276,14 @@ public class EmpresaAmazing {
 	 *   VER EJEMPLO EN ENUNCIADO
 	 */
 	public boolean hayTransportesIdenticos(){
-		return true;
+		for (Transporte transporte : transportes.values()) {
+			for (Transporte transporte2 : transportes.values()) {
+				if(transporte != transporte2 && transporte.mismaCarga(transporte2) && transporte.sonMismoTipo(transporte, transporte2)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
