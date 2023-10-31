@@ -1,5 +1,8 @@
 package Amazing;
 
+import java.util.Hashtable;
+import java.util.Objects;
+
 public class Paquete{
     private Integer volumen;
     private Integer idPaquete;
@@ -50,6 +53,7 @@ public class Paquete{
             return false; // Son de tipos diferentes.
         }
     }
+
 
     public Boolean validarIgualdad(Paquete otroPaquete){
         if(volumen.equals(otroPaquete.volumen) && precio.equals(otroPaquete.precio) && entregado == otroPaquete.entregado){

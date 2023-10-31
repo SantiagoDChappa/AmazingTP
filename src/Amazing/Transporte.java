@@ -1,7 +1,12 @@
 package Amazing; 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public abstract class Transporte {
 	
@@ -36,18 +41,48 @@ public abstract class Transporte {
 	public abstract void cargarPaquetes(Pedido pedido);
 	
 	public boolean mismaCarga(Transporte otroTransporte) {
-		Hashtable<Integer, Paquete> listaPaquete2 = otroTransporte.getListaPaquete();
-		Boolean ret = false;
-		Boolean ret2 = true;
 
-		for (Paquete paquete : listaPaquetes.values()) {
-			ret = false;
-			for (Paquete paquete2 : listaPaquete2.values()) {
-					ret = ret || (paquete.sonMismoTipo(paquete, paquete2) && paquete.validarIgualdad(paquete2));
-			}
-			ret2 = ret2 && ret;
+		if(!sonMismoTipo(this, otroTransporte)){
+			return false;
 		}
-		return ret2;
+
+		if (this.volumenMaximo != otroTransporte.volumenMaximo || 
+            this.valorDeViaje != otroTransporte.valorDeViaje) {
+            return false;
+        }
+
+		// Comparar las listas de paquetes
+        if (!sonListasIdenticas(this.listaPaquetes, otroTransporte.listaPaquetes)) {
+            return false;
+        }
+
+		// Comparar las listas de pedidos
+		if (!sonListasIdenticas(this.listaPedido, otroTransporte.listaPedido)) {
+			return false;
+		}
+		return true;
+    }
+
+
+    private <T> boolean sonListasIdenticas(Hashtable<Integer, T> lista1, Hashtable<Integer, T> lista2) {
+        if (lista1 == null && lista2 == null) {
+            return true;
+        }
+        if (lista1 == null || lista2 == null) {
+            return false;
+        }
+        if (lista1.size() != lista2.size()) {
+            return false;
+        }
+        
+        // Verificar si los elementos de las listas son iguales
+        for (Integer key : lista1.keySet()) {
+            if (!lista2.containsKey(key) || !Objects.equals(lista1.get(key), lista2.get(key))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public boolean sonMismoTipo(Transporte transporte1, Transporte transporte2) {
@@ -62,9 +97,24 @@ public abstract class Transporte {
         }
     }
 
-	public abstract String toString();
+	public String toString(){
+		String texto = "";
 
+        List<Integer> claves = new ArrayList<>(listaPaquetes.keySet());
 
+        Collections.sort(claves);
+
+		System.out.println(listaPaquetes.values());
+
+		if(listaPaquetes.size() > 0){
+			for (Integer clave : claves) {
+					Paquete paquete = listaPaquetes.get(clave);
+					Pedido pedido = listaPedido.get(paquete.getIdPaquete());
+					texto += " + [ " + pedido.getIdPedido() + " - " + paquete.getIdPaquete() + " ] " + pedido.getDireccion() + "\n";
+			}
+		}
+		return texto;
+	}
 
 	public String getPatente(){
 		return this.patente;

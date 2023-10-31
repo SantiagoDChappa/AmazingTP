@@ -26,9 +26,9 @@ public class Especial extends Paquete{
     }
 
     public Integer calcularValorTotal(){
-        if (getVolumen() <= 3000) {
+        if (getVolumen() < 3000) {
             return getPrecio() + ((getPrecio() * porcentajeEntregaRapida) / 100);
-        }else if(getVolumen() > 3000 && getVolumen() <= 5000){
+        }else if(getVolumen() >= 3000 && getVolumen() <= 5000){
             return getPrecio() + ((getPrecio() * porcentajeEntregaRapida) / 100) + valorAdicional;
         }else{
             return getPrecio() + ((getPrecio() * porcentajeEntregaRapida) / 100) + (valorAdicional*2);

@@ -6,12 +6,13 @@ public class EmpresaAmazing {
     private String cuitSistema;
     private Hashtable<Integer, Paquete> paquetes;
     private Hashtable<Integer, Pedido> pedidos;
-	private Integer cantPedidos;
+	private Double facturacionTotal;
     private Hashtable <String, Transporte> transportes;
 
     public EmpresaAmazing(String cuit){
         this.cuitSistema = cuit;
         this.paquetes = null;
+		this.facturacionTotal = 0.0;
         this.pedidos = new Hashtable<Integer, Pedido>();
 		this.paquetes = new Hashtable<Integer, Paquete>();
 		this.transportes = new Hashtable<String, Transporte>();
@@ -170,13 +171,17 @@ public class EmpresaAmazing {
 	 * Demostrar la complejidad en terminos de O grande en el informe.
 	 */
 	public boolean quitarPaquete(int codPaquete){
-		for (Pedido pedido : pedidos.values()) {
-			if(pedido.validarPedido(codPaquete)){
-				pedido.quitarPaquete(codPaquete);
-				return true;
+		if (!pedidos.containsKey(codPaquete)) {
+            throw new RuntimeException("Pedido no registrado");
+		} else {
+			for (Pedido pedido : pedidos.values()) {
+				if(pedido.validarPedido(codPaquete)){
+					pedido.quitarPaquete(codPaquete);
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -194,6 +199,7 @@ public class EmpresaAmazing {
 		} else {
 			Pedido pedido= pedidos.get(codPedido);
 			Integer precio = pedido.obtenerFacturacion();
+			facturacionTotal += precio;
 			pedido.finalizarPedido();
 			return precio;
 		}
@@ -247,7 +253,7 @@ public class EmpresaAmazing {
 	 */
 	public double costoEntrega(String patente){
 		Transporte transporte = transportes.get(patente);
-		if (transportes.containsKey(patente)) {
+		if (!transportes.containsKey(patente)) {
 			throw new RuntimeException("Patente no registrado en  el sistema");
 		}else if (transporte.getListaPaquete().size() < 1) {
             throw new RuntimeException("El transporte no contiene ninguna carga");
@@ -265,9 +271,16 @@ public class EmpresaAmazing {
 	 * cliente que lo pidio.
 	 * 
 	 */
-	// public Map<Integer,String> pedidosNoEntregados(){
-	// 	return Map;
-	// }
+	public Map<Integer,String> pedidosNoEntregados(){
+		Map<Integer, String> pedidosNoEntregados = new HashMap<Integer, String>();
+		
+		for (Pedido pedido : pedidos.values()) {
+			if (pedido.validarFinalizado() && pedido.tieneNoEntregados()) {
+				pedidosNoEntregados.put(pedido.getIdPedido(), pedido.getNombreCliente());			
+			}
+		}
+		return pedidosNoEntregados;
+	}
 
 	/**
 	 * Devuelve la suma del precio facturado de todos los pedidos cerrados.
@@ -275,8 +288,7 @@ public class EmpresaAmazing {
 	 * Se debe realizar esta operacion en O(1).
 	 */
 	public double facturacionTotalPedidosCerrados(){
-		// double costoTotal = pedidos.obtenerCostoFin();
-		return 0;
+		return facturacionTotal;
 	}
 	
 	/**
@@ -293,14 +305,18 @@ public class EmpresaAmazing {
 	 *   VER EJEMPLO EN ENUNCIADO
 	 */
 	public boolean hayTransportesIdenticos(){
+		Boolean ret = false;
 		for (Transporte transporte : transportes.values()) {
 			for (Transporte transporte2 : transportes.values()) {
-				if(transporte != transporte2 && transporte.mismaCarga(transporte2) && transporte.sonMismoTipo(transporte, transporte2)){
-					return true;
+				if(transporte.getPatente() != transporte2.getPatente()){
+					ret = ret || transporte.mismaCarga(transporte2);
 				}
 			}
 		}
-		return false;
+		return ret;
 	}
 
+	public String toString(){
+		return this.cuitSistema;
+	}
 }

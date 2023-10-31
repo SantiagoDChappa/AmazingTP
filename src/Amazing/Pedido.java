@@ -28,12 +28,30 @@ public class Pedido{
         this.paquetes = new Hashtable<Integer, Paquete>();
         this.idPedido = idPedido;
         this.finalizado = false;
+        
+    }
+    public void finalizarPedido(){
+        this.finalizado = true;
+    }
 
+    public boolean validarFinalizado(){
+        return this.finalizado;
+    }
+
+    public void quitarPaquete(Integer codPaquete){
+        paquetes.remove(codPaquete);
+    }
+
+    public String getDireccion(){
+        return this.direccionCliente;
+    }
+
+    public void setDireccion(String direccion){
+        this.direccionCliente = direccion;
     }
 
     public void agregarPaquete(Integer idPaquete, Paquete paquete){
         paquetes.put(idPaquete, paquete);
-        System.out.println(paquetes.size());
     }
 
     public Integer getIdPedido(){
@@ -43,10 +61,6 @@ public class Pedido{
      public void setIdPedido(Integer idPedido){
         this.idPedido = idPedido;
     }
-
-    // public double obtenerCostoFin(){
-	// 	double costo += paquetes.obtenerFacturacion();
-	// }
 
     public Integer obtenerFacturacion(){
         Integer precioFinal = 0;
@@ -69,24 +83,18 @@ public class Pedido{
         return false;
     }
 
-    public void finalizarPedido(){
-        this.finalizado = true;
+
+    public boolean tieneNoEntregados(){
+        for (Paquete paquete : paquetes.values()) {
+            if (!paquete.getEntregado()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public boolean validarFinalizado(){
-        return this.finalizado;
-    }
-
-    public void quitarPaquete(Integer codPaquete){
-        paquetes.remove(codPaquete);
-    }
-
-    public String getDireccion(){
-        return this.direccionCliente;
-    }
-
-    public void setDireccion(String direccion){
-        this.direccionCliente = direccion;
+    public String getNombreCliente(){
+        return this.nombreCliente;
     }
 
     public String toString(){

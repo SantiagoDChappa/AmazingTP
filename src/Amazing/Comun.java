@@ -1,6 +1,10 @@
 package Amazing;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 public class Comun extends Transporte {
 	private int maxPaquetes;
@@ -33,17 +37,4 @@ public class Comun extends Transporte {
 			}
 		}
 	}	
-
-	public String toString(){
-		String texto = "Transporte\nPatente: " + getPatente() + "\nTipo de transporte: Comun";
-		if(listaPaquetes.size() > 0){
-			for (Paquete paquete : listaPaquetes.values()) {
-				Pedido pedido = listaPedido.get(paquete.getIdPaquete());
-				texto += "\n[ Nro. Pedido: " + pedido.getIdPedido() + " - Cod. Paquete: " + paquete.getIdPaquete() + " ] " + pedido.getDireccion();
-			}
-		}else{
-			texto += "\n VACIO";
-		}
-		return texto;
-	}
 }
