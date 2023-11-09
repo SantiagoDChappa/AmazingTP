@@ -171,7 +171,7 @@ public class EmpresaAmazing {
 	 * Demostrar la complejidad en terminos de O grande en el informe.
 	 */
 	public boolean quitarPaquete(int codPaquete){
-		if (!pedidos.containsKey(codPaquete)) {
+		if (!paquetes.containsKey(codPaquete)) {
             throw new RuntimeException("Pedido no registrado");
 		} else {
 			for (Pedido pedido : pedidos.values()) {

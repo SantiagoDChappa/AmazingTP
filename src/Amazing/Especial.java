@@ -18,8 +18,13 @@ public class Especial extends Paquete{
         return this.valorAdicional;
     }
     
-    public Boolean validarIgualdad(Especial otroPaquete){
-        if(getVolumen().equals(otroPaquete.getVolumen()) && getPrecio().equals(otroPaquete.getPrecio()) && getEntregado() == otroPaquete.getEntregado() && valorAdicional.equals(otroPaquete.getValorAdicional()) && porcentajeEntregaRapida.equals(otroPaquete.getPorcentajeEntregaRapida())){
+    public Boolean cargaIdentica(Especial otroPaquete){
+        if(getVolumen().equals(otroPaquete.getVolumen()) && 
+           getPrecio().equals(otroPaquete.getPrecio()) && 
+           getEntregado() == otroPaquete.getEntregado() && 
+           valorAdicional.equals(otroPaquete.getValorAdicional()) && 
+           porcentajeEntregaRapida.equals(otroPaquete.getPorcentajeEntregaRapida())){
+
             return true;
         }
         return false;

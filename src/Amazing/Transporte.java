@@ -42,59 +42,30 @@ public abstract class Transporte {
 	
 	public boolean mismaCarga(Transporte otroTransporte) {
 
-		if(!sonMismoTipo(this, otroTransporte)){
+		if(this.getClass() != otroTransporte.getClass()){
 			return false;
 		}
 
-		if (this.volumenMaximo != otroTransporte.volumenMaximo || 
-            this.valorDeViaje != otroTransporte.valorDeViaje) {
-            return false;
-        }
-
+		if (this.listaPaquetes.size() != otroTransporte.listaPaquetes.size() || (otroTransporte.listaPaquetes.size() == 0 && this.listaPaquetes.size() == 0)) {
+			return false;
+		}
+		
 		// Comparar las listas de paquetes
-        if (!sonListasIdenticas(this.listaPaquetes, otroTransporte.listaPaquetes)) {
-            return false;
-        }
-
-		// Comparar las listas de pedidos
-		if (!sonListasIdenticas(this.listaPedido, otroTransporte.listaPedido)) {
-			return false;
+		for(Paquete paquete : this.listaPaquetes.values()){
+			for(Paquete paquete2 : otroTransporte.listaPaquetes.values()){
+				if (paquete.getClass() == paquete2.getClass() && paquete.getClass() == (Especial.class)) {
+					Especial especial = (Especial)paquete;
+					Especial especial2 = (Especial)paquete2;
+					return especial.cargaIdentica(especial2);
+				}else if(paquete.getClass() == paquete2.getClass() && paquete.getClass() == (Ordinario.class)){
+					Ordinario ordinario = (Ordinario)paquete;
+					Ordinario ordinario2 = (Ordinario)paquete2;
+					return ordinario.cargaIdentica(ordinario2);
+				}
+			}
 		}
+
 		return true;
-    }
-
-
-    private <T> boolean sonListasIdenticas(Hashtable<Integer, T> lista1, Hashtable<Integer, T> lista2) {
-        if (lista1 == null && lista2 == null) {
-            return true;
-        }
-        if (lista1 == null || lista2 == null) {
-            return false;
-        }
-        if (lista1.size() != lista2.size()) {
-            return false;
-        }
-        
-        // Verificar si los elementos de las listas son iguales
-        for (Integer key : lista1.keySet()) {
-            if (!lista2.containsKey(key) || !Objects.equals(lista1.get(key), lista2.get(key))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean sonMismoTipo(Transporte transporte1, Transporte transporte2) {
-        if ((transporte1 instanceof Camion) && (transporte2 instanceof Camion)) {
-            return true; // Ambos son de tipo Camion.
-        } else if ((transporte1 instanceof Comun) && (transporte2 instanceof Comun)) {
-            return true; // Ambos son de tipo Comun.
-        } else if ((transporte1 instanceof Utilitario) && (transporte2 instanceof Utilitario)) {
-            return true; // Ambos son de tipo Utilitario.
-        } else {
-            return false; // Son de tipos diferentes.
-        }
     }
 
 	public String toString(){

@@ -16,8 +16,12 @@ public class Ordinario extends Paquete{
         return this.costoEnvio;
     }
 
-    public Boolean validarIgualdad(Ordinario otroPaquete){
-        if(getVolumen().equals(otroPaquete.getVolumen()) && getPrecio().equals(otroPaquete.getPrecio()) && getEntregado() == otroPaquete.getEntregado() && costoEnvio.equals(otroPaquete.getCostoEnvio())){
+    public Boolean cargaIdentica(Ordinario otroPaquete){
+        if(getVolumen().equals(otroPaquete.getVolumen()) && 
+           getPrecio().equals(otroPaquete.getPrecio()) && 
+           getEntregado() == otroPaquete.getEntregado() && 
+           costoEnvio.equals(otroPaquete.getCostoEnvio())){
+            
             return true;
         }
         return false;

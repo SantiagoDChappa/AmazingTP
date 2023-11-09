@@ -83,7 +83,6 @@ public class Pedido{
         return false;
     }
 
-
     public boolean tieneNoEntregados(){
         for (Paquete paquete : paquetes.values()) {
             if (!paquete.getEntregado()) {

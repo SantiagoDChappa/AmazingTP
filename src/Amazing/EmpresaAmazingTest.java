@@ -41,7 +41,7 @@ public class EmpresaAmazingTest {
 		emp.registrarUtilitario(patenteUtilitarios, 5000, 20000, 3000);
 		emp.registrarUtilitario(patenteUtilitariosSinCarga, 7500, 20000, 3000);
 		// registrar Pedidos
-		pedidoAbierto = emp.registrarPedido("Irwin", "Calle falsa 123", 11111111);
+		pedidoAbierto=emp.registrarPedido("Irwin", "Calle falsa 123", 11111111);
 		pedidoCerrado = emp.registrarPedido("Billy", "Avenida siempre viva 47", 22222222);
 		pedidoCerradoAux = emp.registrarPedido("Mandy", "Casa sin numero", 33333333);
 		pedidoAbiertoAux = emp.registrarPedido("Godofredo", "Inframundo 72", 33333333);
@@ -177,7 +177,7 @@ public class EmpresaAmazingTest {
 		pedidosNoEntregados.put(pedidoCerrado,"Billy");
 		pedidosNoEntregados.put(pedidoCerradoAux,"Mandy");
 		assertEquals(pedidosNoEntregados, emp.pedidosNoEntregados());
-	}
+	} 
 	
 	
 	// transporte identico true
